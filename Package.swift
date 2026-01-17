@@ -18,11 +18,15 @@ let package = Package(
         ),
     ],
     dependencies: [
+        .package(path: "../swift-standard-library-extensions"),
         .package(path: "../swift-test-primitives"),
     ],
     targets: [
         .target(
-            name: "Dependency Primitives"
+            name: "Dependency Primitives",
+            dependencies: [
+                .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions"),
+            ]
         ),
         .testTarget(
             name: "Dependency Primitives Tests",
