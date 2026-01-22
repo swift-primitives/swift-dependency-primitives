@@ -18,13 +18,19 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(path: "../swift-standard-library-extensions")
+        .package(path: "../swift-standard-library-extensions"),
+        // Semantic dependency: DI commonly uses property wrappers (@Dependency, @Environment)
+        // .package(path: "../swift-property-primitives"),
+        // Semantic dependency: DI is about accessing/injecting nested values (lens/prism pattern)
+        // .package(path: "../swift-optic-primitives"),
     ],
     targets: [
         .target(
             name: "Dependency Primitives",
             dependencies: [
-                .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions")
+                .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions"),
+                // .product(name: "Property Primitives", package: "swift-property-primitives"),
+                // .product(name: "Optic Primitives", package: "swift-optic-primitives"),
             ]
         )
     ],
