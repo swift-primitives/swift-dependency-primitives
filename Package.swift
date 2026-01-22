@@ -19,9 +19,9 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../swift-standard-library-extensions"),
-        // Semantic dependency: DI commonly uses property wrappers (@Dependency, @Environment)
+        // SDG(operates-on): DI operates on property wrapper patterns (@Dependency, @Environment)
         // .package(path: "../swift-property-primitives"),
-        // Semantic dependency: DI is about accessing/injecting nested values (lens/prism pattern)
+        // SDG(operates-on): DI operates on lens/prism patterns for nested value access
         // .package(path: "../swift-optic-primitives"),
     ],
     targets: [
