@@ -70,7 +70,9 @@ extension Dependency.Key {
     public static var testValue: Value { liveValue }
 }
 
-/// Workaround for macro conformance limitations.
-///
-/// Use `Dependency.Key` in all other contexts.
+// WORKAROUND: Top-level typealias so macros can generate `__DependencyKey` conformances
+// WHY: Swift macros cannot yet reference nested protocol types (`Dependency.Key`) in
+//   generated conformance clauses
+// WHEN TO REMOVE: When macro-generated code can reference nested protocols directly
+// TRACKING: https://github.com/swiftlang/swift/issues/66450
 public typealias __DependencyKey = Dependency.Key
