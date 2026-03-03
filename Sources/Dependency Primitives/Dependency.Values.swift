@@ -52,7 +52,7 @@ extension Dependency {
         ///
         /// - Parameter key: The key type to look up.
         /// - Returns: The registered value, or the default value if not registered.
-        public subscript<K: Dependency.Key>(key: K.Type) -> K.Value {
+        public subscript<K: Dependency.Key>(key: K.Type) -> K.Value where K.Value: Copyable {
             get {
                 if let value = storage[ObjectIdentifier(key)] as? K.Value {
                     return value

@@ -52,7 +52,7 @@ extension Dependency {
     /// ```
     public protocol Key: Sendable {
         /// The value type this key provides.
-        associatedtype Value: Sendable
+        associatedtype Value: ~Copyable & Sendable
 
         /// The default value for production use.
         static var liveValue: Value { get }
@@ -62,7 +62,7 @@ extension Dependency {
     }
 }
 
-extension Dependency.Key {
+extension Dependency.Key where Value: Copyable {
     /// Default implementation returns the live value.
     ///
     /// Override this in your key type to provide test-specific
