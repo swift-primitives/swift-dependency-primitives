@@ -10,7 +10,6 @@
 //
 // ===----------------------------------------------------------------------===//
 
-import Standard_Library_Extensions
 
 extension Dependency {
     /// Task-local scoping for dependency resolution.
@@ -98,7 +97,17 @@ extension Dependency.Scope {
     ) throws(E) -> T {
         var scope = _current
         modify(&scope.values)
-        return try $_current.withValue(scope, body: operation)
+        // Result-wrapping workaround: stdlib's TaskLocal.withValue rethrows erases
+        // typed error info. When FullTypedThrows (AvailableInProd) lands, replace
+        // with: return try $_current.withValue(scope, operation: operation)
+        let result: Result<T, E> = $_current.withValue(scope, operation: {
+            do throws(E) {
+                return .success(try operation())
+            } catch {
+                return .failure(error)
+            }
+        })
+        return try result.get()
     }
 
     /// Executes a closure with modified values (non-throwing).
@@ -137,7 +146,17 @@ extension Dependency.Scope {
     ) async throws(E) -> T {
         var scope = _current
         modify(&scope.values)
-        return try await $_current.withValue(scope, body: operation)
+        // Result-wrapping workaround: stdlib's TaskLocal.withValue rethrows erases
+        // typed error info. When FullTypedThrows (AvailableInProd) lands, replace
+        // with: return try await $_current.withValue(scope, operation: operation)
+        let result: Result<T, E> = await $_current.withValue(scope, operation: {
+            do throws(E) {
+                return .success(try await operation())
+            } catch {
+                return .failure(error)
+            }
+        })
+        return try result.get()
     }
 //
 //    /// Executes an async closure with modified values (non-throwing).
