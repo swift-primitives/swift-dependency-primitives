@@ -139,19 +139,19 @@ extension Dependency.Scope {
         modify(&scope.values)
         return try await $_current.withValue(scope, body: operation)
     }
-
-    /// Executes an async closure with modified values (non-throwing).
-    ///
-    /// - Parameters:
-    ///   - modify: A closure that modifies the values for the scope.
-    ///   - operation: The async operation to execute with the modified values.
-    /// - Returns: The result of the operation.
-    public static func with<T>(
-        _ modify: (inout Dependency.Values) -> Void,
-        operation: () async -> T
-    ) async -> T {
-        var scope = _current
-        modify(&scope.values)
-        return await $_current.withValue(scope, operation: operation)
-    }
+//
+//    /// Executes an async closure with modified values (non-throwing).
+//    ///
+//    /// - Parameters:
+//    ///   - modify: A closure that modifies the values for the scope.
+//    ///   - operation: The async operation to execute with the modified values.
+//    /// - Returns: The result of the operation.
+//    public static func with<T>(
+//        _ modify: (inout Dependency.Values) -> Void,
+//        operation: () async -> T
+//    ) async -> T {
+//        var scope = _current
+//        modify(&scope.values)
+//        return await $_current.withValue(scope, operation: operation)
+//    }
 }
