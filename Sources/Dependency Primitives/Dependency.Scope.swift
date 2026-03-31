@@ -140,9 +140,10 @@ extension Dependency.Scope {
     ///   - operation: The async operation to execute with the modified values.
     /// - Returns: The result of the operation.
     /// - Throws: The typed error from the operation.
+    nonisolated(nonsending)
     public static func with<T, E: Error>(
         _ modify: (inout Dependency.Values) -> Void,
-        operation: () async throws(E) -> T
+        operation: nonisolated(nonsending) () async throws(E) -> T
     ) async throws(E) -> T {
         var scope = _current
         modify(&scope.values)
